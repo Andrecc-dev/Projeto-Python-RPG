@@ -1,5 +1,6 @@
 # arquivo para a criação de players
 import random
+from Classes import CLASSES
 
 class player:
     def __init__(self, nome, classe_escolhida, local_nasc, profissao):
@@ -23,7 +24,18 @@ class player:
         self.vitalidade = 5
         self.inteligencia = 5
         self.destreza = 5
-        self.carisma = 5
+        self.carisma = 5   
+        
+        #adiciona a lógica de bonus de classe
+        if self.classe in CLASSES:
+            Bonus = CLASSES[self.classe]
+            self.forca += Bonus.get("força", 0)
+            self.agilidade += Bonus.get("força", 0)
+            self.vitalidade += Bonus.get("força", 0)
+            self.inteligencia += Bonus.get("força", 0)
+            self.destreza += Bonus.get("força", 0)
+            self.carisma += Bonus.get("força", 0)
+
         self.fadiga = 0
         self.inventario = [] 
 
