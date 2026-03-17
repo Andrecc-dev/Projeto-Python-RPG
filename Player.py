@@ -25,7 +25,10 @@ class player:
         self.destreza = 5
         self.carisma = 5
         self.fadiga = 0
-        self.inventario = [] # Inicializa o inventário vazio
+        self.inventario = [] 
+
+        self.vidas = 3
+        self.morto_permanentemente = False
         
         self.sorte_secreta = random.randint(1, 100)
         self.is_prodigio = True if random.randint(1, 100) <= 5 else False
@@ -52,7 +55,6 @@ class player:
         self.hp_atual = self.hp_max
 
     def calcular_hp_max(self):
-        # Fórmula: Vitalidade * 10 (+ bônus de prodígio)
         bonus_prodigio = 20 if self.is_prodigio else 0
         self.hp_max = (self.vitalidade * 10) + bonus_prodigio
 
@@ -61,18 +63,13 @@ class player:
         self.pontos_disp += 3
         self.xp -= self.xp_needed
         self.xp_needed = int(self.xp_needed * 1.5)
-
-        # Atualiza o HP máximo conforme a nova Vitalidade
         self.calcular_hp_max()
-        
-        # Recupera um pouco de vida ao subir de nível (opcional, mude se preferir recuperar tudo)
         self.hp_atual = self.hp_max
         
         print(f"✨ NÍVEL UP! Você agora está no nível {self.nivel}.")
         print(f"🎯 Você tem {self.pontos_disp} pontos para distribuir!")
 
     def ganhar_fadiga(self, custo_base):
-        # Redutor baseado na Vitalidade
         redutor = self.vitalidade / 10
         if redutor < 1: redutor = 1 
         
@@ -86,20 +83,26 @@ class player:
     def aplicar_penalidade_desmaio(self):
         dano = self.hp_atual * 0.25
         self.hp_atual -= dano
-        self.fadiga = 0 # O jogador descansa após desmaiar
+        self.fadiga = 0 
         print(f"🚨 FADIGA CRÍTICA! {self.nome} desmaiou de exaustão e perdeu {dano:.1f} de HP.")
 
     def caminhar(self, distancia):
         custo_base = distancia * 5
-        
-        # Calcula o peso total dos itens no inventário
-        # (Supõe que cada item tenha um atributo .peso)
         peso_mochila = sum(item.peso for item in self.inventario) if self.inventario else 0
     
-        # Penalidade por sobrecarga
         if peso_mochila > (self.forca * 2):
             print("⚠️ Você está sobrecarregado! O cansaço será maior.")
             custo_base *= 2
         
         self.ganhar_fadiga(custo_base)
-        #a
+
+    def morrer(self):
+        self.vidas -= 1
+
+        if self.vidas > 0:
+            print(f"💀 Você morreu, porem o sistema te deu mais 1 chance. Vidas restantes: {self.vidas}")
+            self.hp_atual = self.hp_max 
+            self.fadiga = 0
+        else:
+            self.morto_permanentemente = True
+            print(f"🚫 GAME OVER PERMANENTE. {self.nome} pereceu em Reinos de Pythonia.")
