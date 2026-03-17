@@ -102,3 +102,4 @@ class player:
             custo_base *= 2
         
         self.ganhar_fadiga(custo_base)
+        #a
