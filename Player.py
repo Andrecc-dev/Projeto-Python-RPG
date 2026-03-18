@@ -1,6 +1,6 @@
 # arquivo para a criação de players
 import random
-from Classes import CLASSES
+from Classes import CLASSES, PROFISOES # Import corrigido (um só basta)
 
 class player:
     def __init__(self, nome, classe_escolhida, local_nasc, profissao):
@@ -26,19 +26,33 @@ class player:
         self.destreza = 5
         self.carisma = 5   
         
-        #adiciona a lógica de bonus de classe
+        # Atributos fixos/especiais (não pode fazer upgrade)
+        self.sorte = 0
+
+        # 1. Bônus de PROFISSÃO
+        if self.profissao in PROFISOES:
+            BonusP = PROFISOES[self.profissao]
+            self.forca += BonusP.get("forca", 0)
+            self.agilidade += BonusP.get("agilidade", 0)
+            self.vitalidade += BonusP.get("vitalidade", 0)
+            self.inteligencia += BonusP.get("inteligencia", 0)
+            self.destreza += BonusP.get("destreza", 0)
+            self.carisma += BonusP.get("carisma", 0)
+            self.sorte += BonusP.get("sorte", 0)
+
+        # 2. Bônus de CLASSE
         if self.classe in CLASSES:
-            Bonus = CLASSES[self.classe]
-            self.forca += Bonus.get("força", 0)
-            self.agilidade += Bonus.get("força", 0)
-            self.vitalidade += Bonus.get("força", 0)
-            self.inteligencia += Bonus.get("força", 0)
-            self.destreza += Bonus.get("força", 0)
-            self.carisma += Bonus.get("força", 0)
+            BonusC = CLASSES[self.classe]
+            self.forca += BonusC.get("forca", 0)
+            self.agilidade += BonusC.get("agilidade", 0)
+            self.vitalidade += BonusC.get("vitalidade", 0)
+            self.inteligencia += BonusC.get("inteligencia", 0)
+            self.destreza += BonusC.get("destreza", 0)
+            self.carisma += BonusC.get("carisma", 0)
+            self.sorte += BonusC.get("sorte", 0)
 
         self.fadiga = 0
         self.inventario = [] 
-
         self.vidas = 3
         self.morto_permanentemente = False
         
