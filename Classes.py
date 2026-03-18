@@ -7,7 +7,7 @@ CLASSES = {
         "forca": 2, "vitalidade": 1, "carisma": -1,
         "descricao": "Dano físico e resistência."
     },
-    "Assassino": {
+    "Assasino": {
         "agilidade": 2, "destreza": 1, "forca": -1,
         "descricao": "Esquiva e ataques críticos."
     },
