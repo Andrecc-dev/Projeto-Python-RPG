@@ -1,6 +1,6 @@
 # arquivo para a criação de players
 import random
-from Classes import CLASSES, PROFISOES # Import corrigido (um só basta)
+from Classes import CLASSES, PROFISOES 
 
 class player:
     def __init__(self, nome, classe_escolhida, local_nasc, profissao):
@@ -26,7 +26,7 @@ class player:
         self.destreza = 5
         self.carisma = 5   
         
-        # Atributos fixos/especiais (não pode fazer upgrade)
+        # Atributos fixos/especiais
         self.sorte = 0
 
         # 1. Bônus de PROFISSÃO
@@ -52,7 +52,16 @@ class player:
             self.sorte += BonusC.get("sorte", 0)
 
         self.fadiga = 0
-        self.inventario = [] 
+        self.inventario = []
+        
+        # --- SISTEMA DE EQUIPAMENTO ---
+        self.equipamento = {
+            "mao_principal": None,
+            "cabeca": None,
+            "corpo": None,
+            "pernas": None
+        }
+
         self.vidas = 3
         self.morto_permanentemente = False
         
@@ -80,6 +89,7 @@ class player:
         self.calcular_hp_max()
         self.hp_atual = self.hp_max
 
+    # --- MÉTODOS DE STATUS ---
     def calcular_hp_max(self):
         bonus_prodigio = 20 if self.is_prodigio else 0
         self.hp_max = (self.vitalidade * 10) + bonus_prodigio
@@ -91,14 +101,12 @@ class player:
         self.xp_needed = int(self.xp_needed * 1.5)
         self.calcular_hp_max()
         self.hp_atual = self.hp_max
-        
-        print(f"✨ NÍVEL UP! Você agora está no nível {self.nivel}.")
-        print(f"🎯 Você tem {self.pontos_disp} pontos para distribuir!")
+        print(f"✨ NÍVEL UP! Nível {self.nivel}. Você tem {self.pontos_disp} pontos!")
 
+    # --- MÉTODOS DE SOBREVIVÊNCIA ---
     def ganhar_fadiga(self, custo_base):
         redutor = self.vitalidade / 10
         if redutor < 1: redutor = 1 
-        
         impacto_real = custo_base / redutor
         self.fadiga += impacto_real
 
@@ -110,25 +118,73 @@ class player:
         dano = self.hp_atual * 0.25
         self.hp_atual -= dano
         self.fadiga = 0 
-        print(f"🚨 FADIGA CRÍTICA! {self.nome} desmaiou de exaustão e perdeu {dano:.1f} de HP.")
+        print(f"🚨 FADIGA CRÍTICA! {self.nome} desmaiou e perdeu {dano:.1f} de HP.")
 
     def caminhar(self, distancia):
         custo_base = distancia * 5
         peso_mochila = sum(item.peso for item in self.inventario) if self.inventario else 0
-    
         if peso_mochila > (self.forca * 2):
-            print("⚠️ Você está sobrecarregado! O cansaço será maior.")
             custo_base *= 2
-        
         self.ganhar_fadiga(custo_base)
 
     def morrer(self):
         self.vidas -= 1
-
         if self.vidas > 0:
-            print(f"💀 Você morreu, porem o sistema te deu mais 1 chance. Vidas restantes: {self.vidas}")
+            print(f"💀 Morte evitada! Vidas restantes: {self.vidas}")
             self.hp_atual = self.hp_max 
             self.fadiga = 0
         else:
             self.morto_permanentemente = True
-            print(f"🚫 GAME OVER PERMANENTE. {self.nome} pereceu em Reinos de Pythonia.")
+            print(f"🚫 GAME OVER PERMANENTE para {self.nome}.")
+
+    # --- SISTEMA DE ITENS E EQUIPAMENTOS ---
+    
+    def descobrir_slot(self, item):
+        nome_low = item.nome.lower()
+        
+        if item.tipo == "Arma":
+            return "mao_principal"
+            
+        elif item.tipo == "Armadura":
+            # Listas de palavras-chave baseadas no seu banco de dados
+            termos_cabeca = ["elmo", "capacete", "capuz", "mascara", "máscara", "bandana"]
+            termos_pernas = ["bota", "perneira", "sapato", "greva"]
+            termos_corpo = ["túnica", "tunica", "colete", "manto", "peitoral", "traje", "armadura", "capa"]
+            
+            if any(t in nome_low for t in termos_cabeca): return "cabeca"
+            if any(t in nome_low for t in termos_pernas): return "pernas"
+            return "corpo" # Padrão para armaduras
+        return None
+
+    def adicionar_item(self, item):
+        limite = self.vitalidade * 2
+        peso_atual = sum(i.peso for i in self.inventario)
+        if peso_atual + item.peso <= limite:
+            self.inventario.append(item)
+            return True
+        print(f"📦 {item.nome} é pesado demais!")
+        return False
+
+    def equipar_item(self, item):
+        if item not in self.inventario:
+            print("❌ Você não tem esse item!")
+            return
+
+        slot = self.descobrir_slot(item)
+        if not slot:
+            print("🚫 Esse item não pode ser equipado.")
+            return
+
+        # Desequipar o atual se existir para não acumular bônus infinitos
+        if self.equipamento[slot]:
+            antigo = self.equipamento[slot]
+            self.forca -= antigo.bonus_ataque
+            self.vitalidade -= antigo.bonus_defesa
+
+        # Equipar novo
+        self.equipamento[slot] = item
+        self.forca += item.bonus_ataque
+        self.vitalidade += item.bonus_defesa
+        
+        self.calcular_hp_max() # Atualiza o HP se a Vitalidade mudou
+        print(f"✅ {item.nome} equipado em {slot}!")
