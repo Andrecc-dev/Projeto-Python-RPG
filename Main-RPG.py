@@ -5,16 +5,18 @@ import os
 import random
 from Player import player
 from Classes import CLASSES, PROFISOES
-from Itens import Equipamento, ITENS_BASICOS # Importamos a classe e o banco de dados
+# Importamos apenas o necessário para o funcionamento real agora
+from Itens import ARMAS_INICIAIS, ARMADURAS_INICIAIS 
 
 # =================================================================
 # 2. FUNÇÕES DE UTILIDADE E INTERFACE
 # =================================================================
 def limpar_tela():
+    """Limpa o terminal de acordo com o Sistema Operacional."""
     os.system('cls' if os.name == 'nt' else 'clear')
 
 def exibir_ficha(p):
-    """Exibe os atributos principais e HP do jogador."""
+    """Exibe os atributos principais e HP atualizado do jogador."""
     print("\n" + "═"*45)
     print(f"   📜 FICHA DO JOGADOR: {p.nome.upper()}")
     print(f"   Classe: {p.classe} | Profissão: {p.profissao}")
@@ -29,7 +31,7 @@ def exibir_ficha(p):
     print("═"*45)
 
 def exibir_equipamento(p):
-    """Exibe o que o jogador está vestindo em cada slot."""
+    """Exibe os itens equipados em cada slot e seus bônus."""
     print("\n" + "🛡️  EQUIPAMENTOS ATUAIS".center(45))
     for slot, item in p.equipamento.items():
         if item:
@@ -38,7 +40,6 @@ def exibir_equipamento(p):
         else:
             nome_exibir = "Vazio"
         
-        # Formata o nome do slot (ex: mao_principal -> Mão Principal)
         slot_nome = slot.replace("_", " ").capitalize()
         print(f" [{slot_nome}]: {nome_exibir}")
     print("═"*45)
@@ -47,70 +48,60 @@ def exibir_equipamento(p):
 # 3. MENU DE CRIAÇÃO DE PERSONAGEM
 # =================================================================
 def menu_criacao():
+    """Gerencia a entrada de dados do usuário e retorna o objeto Player."""
     limpar_tela()
     print("=== ⚔️  SISTEMA DE DESPERTAR: REINOS DE PYTHONIA ⚔️  ===")
     nome = input("Qual é seu nome, caro viajante: ")
 
-    # Validação de Classe
+    # Escolha da Classe
     while True:
         print("\n--- 🛡️  ESCOLHA SUA CLASSE ---")
         for c in CLASSES:
             print(f"[{c}] - {CLASSES[c]['descricao']}")
+        
         escolha_c = input("\nDigite o nome da classe: ").strip().capitalize()
         if escolha_c in CLASSES:
             classe_escolhida = escolha_c
             break
         print(f"⚠️ Erro: '{escolha_c}' não existe!")
 
-    # Validação de Profissão
+    # Escolha da Profissão
     while True:
         print("\n--- 🛠️  ESCOLHA SUA PROFISSÃO ---")
         for p in PROFISOES:
             print(f"[{p}] - {PROFISOES[p]['passiva']}")
+            
         escolha_p = input("\nDigite o nome da profissão: ").strip().capitalize()
         if escolha_p in PROFISOES:
             profissao_escolhida = escolha_p
             break
         print(f"⚠️ Erro: '{escolha_p}' é inválida!")
 
+    # Retorna o objeto player já configurado
     return player(nome, classe_escolhida, "Vila Inicial", profissao_escolhida)
 
 # =================================================================
-# 4. EXECUÇÃO PRINCIPAL (MAIN)
+# 4. EXECUÇÃO PRINCIPAL (MAIN LOOP)
 # =================================================================
 if __name__ == "__main__":
-    # Passo 1: Criar o personagem
+    # Passo 1: Iniciar criação
     p1 = menu_criacao()
     limpar_tela()
-    print("\n[SISTEMA]: Personagem registrado com sucesso!")
-    exibir_ficha(p1)
-
-    # Passo 2: Simular teste de itens
-    print("\n" + "🧪 INICIANDO TESTE DE ITENS... ".center(45))
-    input(" Pressione Enter para receber itens básicos...")
-
-    # Pegando itens do seu banco de dados ITENS_BASICOS
-    arma_teste = ITENS_BASICOS["espada_ferro"]
-    escudo_teste = ITENS_BASICOS["escudo_madeira"]
-
-    # =================================================================
-    # 5. LÓGICA DE INVENTÁRIO E EQUIPAMENTO
-    # =================================================================
-    # Adicionando ao inventário do player
-    p1.adicionar_item(arma_teste)
-    p1.adicionar_item(escudo_teste)
-
-    print(f"\n📦 Itens adicionados: {arma_teste.nome} e {escudo_teste.nome}")
     
-    # Equipando os itens
-    p1.equipar_item(arma_teste)
-    p1.equipar_item(escudo_teste)
+    # Passo 2: Boas-vindas
+    print("\n" + "═"*45)
+    print(f" ✨ O DESPERTAR COMEÇOU: {p1.nome.upper()} ✨")
+    print(f" [SISTEMA]: Você inicia sua jornada em {p1.local_nasc}.")
+    print("═"*45)
 
-    # =================================================================
-    # 6. RESULTADO FINAL
-    # =================================================================
-    print("\n[SISTEMA]: Status atualizados após equipar!")
+    # Passo 3: Exibir a Ficha Inicial 
+    # (Como você colocou a entrega de itens no Player.py, os bônus já aparecem aqui!)
     exibir_ficha(p1)
     exibir_equipamento(p1)
+
+    # Passo 4: Próximos Passos
+    print("\n[SISTEMA]: Seu equipamento inicial foi entregue com base em sua classe.")
+    input("\n[ENTER] Para começar a explorar...")
     
-    print("\n✅ Teste concluído com sucesso!")
+    # Futuramente aqui entrará o sistema de DROP e COMBATE
+    print(f"\n[SISTEMA]: {p1.nome} entra na floresta em busca de desafios...")

@@ -1,6 +1,8 @@
 # arquivo para a criação de players
 import random
 from Classes import CLASSES, PROFISOES 
+# IMPORTANTE: Importar os itens iniciais para o player poder recebê-los ao nascer
+from Itens import ARMAS_INICIAIS, ARMADURAS_INICIAIS
 
 class player:
     def __init__(self, nome, classe_escolhida, local_nasc, profissao):
@@ -89,6 +91,18 @@ class player:
         self.calcular_hp_max()
         self.hp_atual = self.hp_max
 
+        # --- ENTREGA DE EQUIPAMENTO INICIAL AUTOMÁTICO ---
+        # Assim que o player é criado, ele recebe os itens da sua classe
+        if self.classe in ARMAS_INICIAIS:
+            item_arma = ARMAS_INICIAIS[self.classe]
+            self.adicionar_item(item_arma)
+            self.equipar_item(item_arma)
+
+        if self.classe in ARMADURAS_INICIAIS:
+            item_armadura = ARMADURAS_INICIAIS[self.classe]
+            self.adicionar_item(item_armadura)
+            self.equipar_item(item_armadura)
+
     # --- MÉTODOS DE STATUS ---
     def calcular_hp_max(self):
         bonus_prodigio = 20 if self.is_prodigio else 0
@@ -138,22 +152,18 @@ class player:
             print(f"🚫 GAME OVER PERMANENTE para {self.nome}.")
 
     # --- SISTEMA DE ITENS E EQUIPAMENTOS ---
-    
     def descobrir_slot(self, item):
         nome_low = item.nome.lower()
-        
         if item.tipo == "Arma":
             return "mao_principal"
-            
         elif item.tipo == "Armadura":
-            # Listas de palavras-chave baseadas no seu banco de dados
-            termos_cabeca = ["elmo", "capacete", "capuz", "mascara", "máscara", "bandana"]
-            termos_pernas = ["bota", "perneira", "sapato", "greva"]
-            termos_corpo = ["túnica", "tunica", "colete", "manto", "peitoral", "traje", "armadura", "capa"]
+            termos_cabeca = ["elmo", "capacete", "capuz", "mascara", "máscara", "bandana", "chapeu", "chapéu"]
+            termos_pernas = ["bota", "perneira", "sapato", "greva", "sandalia", "sandália"]
+            termos_corpo = ["túnica", "tunica", "colete", "manto", "peitoral", "traje", "armadura", "capa", "camisa"]
             
             if any(t in nome_low for t in termos_cabeca): return "cabeca"
             if any(t in nome_low for t in termos_pernas): return "pernas"
-            return "corpo" # Padrão para armaduras
+            return "corpo" 
         return None
 
     def adicionar_item(self, item):
@@ -166,35 +176,33 @@ class player:
         return False
 
     def equipar_item(self, item):
-        # 1. Verificação de Posse: "Eu tenho esse item?"
+        # 1. Verificação de Posse
         if item not in self.inventario:
             print("❌ Você não tem esse item no inventário!")
             return
 
-        # 2. Verificação de Classe: "Minha classe permite usar isso?"
-        # Usamos 'getattr' porque Consumíveis podem não ter esse atributo
+        # 2. Verificação de Classe
         classe_restrita = getattr(item, 'classe_exclusiva', None)
-        
-        if classe_restrita and classe_restrita != self.classe:
+        if classe_restrita and classe_restrita.capitalize() != self.classe.capitalize():
             print(f"🚫 Classe Inválida! Apenas {classe_restrita}s podem usar isso.")
             return
 
-        # 3. Verificação de Slot: "Onde eu equipo isso?"
+        # 3. Verificação de Slot
         slot = self.descobrir_slot(item)
         if not slot:
             print("🚫 Esse item não pode ser equipado.")
             return
 
-        # Desequipar o atual se existir para não acumular bônus infinitos
+        # 4. Desequipar o atual se existir
         if self.equipamento[slot]:
             antigo = self.equipamento[slot]
             self.forca -= antigo.bonus_ataque
             self.vitalidade -= antigo.bonus_defesa
 
-        # Equipar novo
+        # 5. Equipar novo
         self.equipamento[slot] = item
         self.forca += item.bonus_ataque
         self.vitalidade += item.bonus_defesa
         
-        self.calcular_hp_max() # Atualiza o HP se a Vitalidade mudou
-        print(f"✅ {item.nome} equipado em {slot}!")
+        self.calcular_hp_max() 
+        # print(f"✅ {item.nome} equipado em {slot}!") # Opcional: silenciar se for no nascimento
