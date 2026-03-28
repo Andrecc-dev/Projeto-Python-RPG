@@ -21,6 +21,7 @@ class Equipamento(Item):
         super().__init__(nome, tipo, valor, peso)
         self.bonus_ataque = bonus_ataque
         self.bonus_defesa = bonus_defesa
+        self.classe_exclusiva = self.classe_exclusiva #define o item exclusivo de cada classe
 
 # --- BANCO DE DADOS DE ITENS INICIAIS ---
 ITENS_BASICOS = {

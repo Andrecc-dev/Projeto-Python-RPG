@@ -166,10 +166,20 @@ class player:
         return False
 
     def equipar_item(self, item):
+        # 1. Verificação de Posse: "Eu tenho esse item?"
         if item not in self.inventario:
-            print("❌ Você não tem esse item!")
+            print("❌ Você não tem esse item no inventário!")
             return
 
+        # 2. Verificação de Classe: "Minha classe permite usar isso?"
+        # Usamos 'getattr' porque Consumíveis podem não ter esse atributo
+        classe_restrita = getattr(item, 'classe_exclusiva', None)
+        
+        if classe_restrita and classe_restrita != self.classe:
+            print(f"🚫 Classe Inválida! Apenas {classe_restrita}s podem usar isso.")
+            return
+
+        # 3. Verificação de Slot: "Onde eu equipo isso?"
         slot = self.descobrir_slot(item)
         if not slot:
             print("🚫 Esse item não pode ser equipado.")
