@@ -24,13 +24,13 @@ CLASSES = {
         "descricao": "Tanque e bom com NPCs."
     },
     "Ladino": {
-        "carisma": 2, "destreza": 1, "vitalidade": -1,
-        "descricao": "Lábia, furtos e economia."
+        "agilidade": 1, "carisma": 2, "inteligencia": 1, "forca": -1,
+        "descricao": "Mestre da furtividade, lábia e truques sujos."
     },
-    "Barbaro": {
-        "forca": 3, "inteligencia": -1,
-        "descricao": "Dano bruto e fúria."
-    }
+    "Clerigo": {
+        "inteligencia": 2, "vitalidade": 1, "agilidade": -1,
+        "descricao": "Suporte, cura e magias sagradas."
+    },
 }
 
 PROFISOES = {
