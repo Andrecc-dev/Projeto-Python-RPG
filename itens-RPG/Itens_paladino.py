@@ -8,7 +8,7 @@ ITENS_PALADINO_COMUM = {
 
     "peitoral_ferro_gasto": Equipamento("Peitoral de Ferro Gasto", "Armadura", 40, bonus_defesa=6, peso=12.0, raridade="Comum", classe_exclusiva="Paladino"),
     "escudo_carvalho_velho": Equipamento("Escudo de Carvalho Velho", "Armadura", 20, bonus_defesa=4, peso=6.0, raridade="Comum", classe_exclusiva="Paladino"),
-    "elmo_aberto_ferro": Equipamento("Elmo Aberto de Ferro", "Armadura", 15, bonus_defesa=2, peso=3.0, raridade="Comum", classe_exclusiva="Paladino"),
+    "elmo_aberto_ferro": Equipamento("Elmo Aberto de Ferro", "Armadura", 15, bonus_defesa=3, peso=3.0, raridade="Comum", classe_exclusiva="Paladino"),
 }
 
 # --- ITENS PALADINO: INCOMUM (Rank D) ---

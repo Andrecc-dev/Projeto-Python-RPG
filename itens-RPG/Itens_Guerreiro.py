@@ -3,13 +3,13 @@ from Itens import Equipamento
 
 # --- ITENS GUERREIRO: COMUM (Rank E) ---
 ITENS_GUERREIRO_COMUM = {
-    "espada_treino": Equipamento("Espada de Treino", "Arma", 10, bonus_ataque=2, peso=1.5, raridade="Comum", classe_exclusiva="Guerreiro"),
+    "espada_basica": Equipamento("Espada Basica", "Arma", 10, bonus_ataque=3, peso=1.5, raridade="Comum", classe_exclusiva="Guerreiro"),
     "machado_ferrugem": Equipamento("Machado Enferrujado", "Arma", 15, bonus_ataque=4, peso=4.0, raridade="Comum", classe_exclusiva="Guerreiro"),
     "clava_madeira": Equipamento("Clava de Madeira", "Arma", 8, bonus_ataque=3, peso=3.0, raridade="Comum", classe_exclusiva="Guerreiro"),
 
-    "gibao_couro_velho": Equipamento("Gibão de Couro Velho", "Armadura", 15, bonus_defesa=2, peso=3.0, raridade="Comum", classe_exclusiva="Guerreiro"),
+    "gibao_couro_velho": Equipamento("Gibão de Couro Velho", "Armadura", 15, bonus_defesa=3, peso=3.0, raridade="Comum", classe_exclusiva="Guerreiro"),
     "peitoral_ferro_trincado": Equipamento("Peitoral de Ferro Trincado", "Armadura", 50, bonus_defesa=5, peso=8.0, raridade="Comum", classe_exclusiva="Guerreiro"),
-    "elmo_aberto": Equipamento("Elmo de Ferro Aberto", "Armadura", 20, bonus_defesa=2, peso=2.0, raridade="Comum", classe_exclusiva="Guerreiro"),
+    "elmo_aberto": Equipamento("Elmo de Ferro Aberto", "Armadura", 20, bonus_defesa=3, peso=2.0, raridade="Comum", classe_exclusiva="Guerreiro"),
 }
 
 # --- ITENS GUERREIRO: INCOMUM (Rank D) ---

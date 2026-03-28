@@ -8,7 +8,7 @@ ITENS_CLERIGO_COMUM = {
 
     "tunica_fiel": Equipamento("Túnica do Fiel", "Armadura", 30, bonus_defesa=3, peso=1.5, raridade="Comum", classe_exclusiva="Clérigo"),
     "capuz_linho": Equipamento("Capuz de Linho Bento", "Armadura", 15, bonus_defesa=1, peso=0.3, raridade="Comum", classe_exclusiva="Clérigo"),
-    "sandalias_santo": Equipamento("Sandálias do Penitente", "Armadura", 10, bonus_defesa=1, peso=0.4, raridade="Comum", classe_exclusiva="Clérigo"),
+    "sandalias_santo": Equipamento("Sandálias do Penitente", "Armadura", 10, bonus_defesa=2, peso=0.4, raridade="Comum", classe_exclusiva="Clérigo"),
 }
 
 # --- ITENS CLÉRIGO: INCOMUM (Rank D) ---

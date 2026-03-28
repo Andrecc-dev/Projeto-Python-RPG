@@ -7,7 +7,7 @@ ITENS_LADINO_COMUM = {
     "navalha_barbeiro": Equipamento("Navalha de Barbeiro Gasta", "Arma", 10, bonus_ataque=2, peso=0.2, raridade="Comum", classe_exclusiva="Ladino"),
 
     "jaqueta_couro_velha": Equipamento("Jaqueta de Couro Gasta", "Armadura", 25, bonus_defesa=3, peso=2.0, raridade="Comum", classe_exclusiva="Ladino"),
-    "bandana_salteador": Equipamento("Bandana de Salteador", "Armadura", 10, bonus_defesa=1, peso=0.1, raridade="Comum", classe_exclusiva="Ladino"),
+    "bandana_salteador": Equipamento("Bandana de Salteador", "Armadura", 10, bonus_defesa=2, peso=0.1, raridade="Comum", classe_exclusiva="Ladino"),
     "luvas_dedos_cortados": Equipamento("Luvas de Tecido sem Dedos", "Armadura", 15, bonus_defesa=1, peso=0.2, raridade="Comum", classe_exclusiva="Ladino"),
 }
 

@@ -7,7 +7,7 @@ ITENS_MAGO_COMUM = {
     "cristal_focado_lascado": Equipamento("Cristal de Foco Lascado", "Arma", 25, bonus_ataque=5, peso=0.4, raridade="Comum", classe_exclusiva="Mago"),
 
     "manto_aprendiz_velho": Equipamento("Manto de Aprendiz Velho", "Armadura", 30, bonus_defesa=2, peso=1.0, raridade="Comum", classe_exclusiva="Mago"),
-    "chapeu_pontudo_trapos": Equipamento("Chapéu Pontudo de Trapos", "Armadura", 15, bonus_defesa=1, peso=0.3, raridade="Comum", classe_exclusiva="Mago"),
+    "chapeu_pontudo_trapos": Equipamento("Chapéu Pontudo de Trapos", "Armadura", 15, bonus_defesa=2, peso=0.3, raridade="Comum", classe_exclusiva="Mago"),
     "sandalias_tecido": Equipamento("Sandálias de Tecido Simples", "Armadura", 10, bonus_defesa=1, peso=0.2, raridade="Comum", classe_exclusiva="Mago"),
 }
 
